@@ -1,7 +1,9 @@
 require 'rubyXL'
-workbook = RubyXL::Parser.parse("PROG SOC 1806.xlsx")
+workbook = RubyXL::Parser.parse("faltanes_seccion._AM65.xlsx")
+##PROG SOC 18061PROG SOC 18061
+##faltanes_seccion._AM65
 worksheet = workbook[0]
-workbook2 = RubyXL::Parser.parse("TARJETAROSA_1.xlsx")
+workbook2 = RubyXL::Parser.parse("PROG SOC 18061PROG SOC 18061.xlsx")
 worksheet2 = workbook2[0]
 #worksheet.each { |row|
 #   row && row.cells.each { |cell|

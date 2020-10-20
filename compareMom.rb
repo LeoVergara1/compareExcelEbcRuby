@@ -1,7 +1,9 @@
 require 'rubyXL'
-workbook = RubyXL::Parser.parse("PROG SOC 1806.xlsx")
+workbook = RubyXL::Parser.parse("PROG SOC 18061.xlsx")
 worksheet = workbook[0]
-workbook2 = RubyXL::Parser.parse("ADRI AM.xlsx")
+workbook2 = RubyXL::Parser.parse("faltanes_seccion._AM65.xlsx")
+p "Truena"
+
 worksheet2 = workbook2[0]
 #worksheet.each { |row|
 #   row && row.cells.each { |cell|
@@ -31,15 +33,17 @@ worksheet.each do |cells|
     :names => cells[4].value,
   }
 end
-
+p "Aqui"
 worksheet2.each do |cells|
-  #p cells[28].value
-  listFromPaysheetListNutrion << {
-    :last_name => cells[2].value,
-    :second_name => cells[3].value,
-    :names => cells[4].value,
-  }
+  if cells
+    listFromPaysheetListNutrion << {
+      :last_name => cells[4].value,
+      :second_name => cells[5].value,
+      :names => cells[6].value,
+    }
+  end
 end
+p "Aqui 2"
 
 result = []
 listFromPaysheetListNutrion.each do |e|
