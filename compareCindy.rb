@@ -9,10 +9,11 @@ def getInteriorNumber(chain)
 end
 
 def getOutNumber(chain)
+  result = chain.match(/\d+[a-zA-Z]/)&.to_s
   if chain.include? "SN"
     result = "SN"
-  else
-    result = chain.match(/(((LT|C|NO)+ +\d*)|(LT+\d*))/)&.to_s
+  elsif result.nil?
+    result = chain.match(/(((LT|C|NO|L)+ \d+)|(LT+\d*))/)&.to_s
     if result.nil?
       chain_with_out_mzn = chain_without_mzn = chain.gsub(/(((MZ|MZA)+ +\d*)|(MZ+\d*))/, "")
       result = chain_with_out_mzn.match(/(([0-9][0-9])|(^([0-9]))| ([0-9][0-9][0-9]))/)&.to_s
@@ -36,7 +37,7 @@ def validateStreet(chain)
     :outdoor_number => outdoor_number
   }
 end
-workbook = RubyXL::Parser.parse("DatosCargaClientesCarteraMuestraNuevoAjuste.xlsx")
+workbook = RubyXL::Parser.parse("DatosCargaClientesCarteraMuestra-Ajuste.xlsx")
 worksheet = workbook[0]
 listFromPaysheetProgram = []
 worksheet.each do |cells|
