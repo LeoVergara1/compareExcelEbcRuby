@@ -15,18 +15,20 @@ end
 
 p list_rows_map[0]
 
-string_to_print = '['
+string_to_print = '{'
 
 list_rows_map.each do |row|
   string_to_print << "
-    {
-      codigo: '#{row.dig(:code)}',
-      description: '#{row.dig(:description)}',
-    },
+    #{row.dig(:code)}: {
+        codigo: '#{row.dig(:code)}',
+        descripcion: '#{row.dig(:description)}',
+        property: '#{row.dig(:property)}',
+        typeComponent: '#{row.dig(:type_component)}'
+        },
   "
 end
 
-string_to_print << ']'
+string_to_print << '}'
 
 
 
