@@ -2,7 +2,7 @@ require 'rubyXL'
 require "uri"
 require "json"
 require "net/http"
-workbook = RubyXL::Parser.parse("ArchivoEjemploParaEjecutarServicio.xlsx")
+workbook = RubyXL::Parser.parse("ArchivoPrimrBloqueParaEjecutarServicioGeo.xlsx")
 worksheet = workbook[0]
 
 listElments = []
@@ -13,29 +13,33 @@ worksheet.each do |cells|
     :date => cells[1].value,
     :hour => cells[2].value,
     :latitud => cells[3].value,
-    :ip => cells[4].value,
-    :deviceinfo => cells[5].value,
-    :solicitud => cells[6].value,
-    :geolocalizationId => ""
+    :longitud => cells[4].value,
+    :ip => cells[5].value,
+    :deviceinfo => cells[6].value,
+    :canal => cells[7].value,
+    :solicitud => cells[8].value,
+    :geolocalizationId => "",
+    :response => ""
   }
 end
 listElments.delete_at(0)
 
-url = URI("https://csb-proxy.masnominadigital.com/api/consubanco/qa/ebanking-utils-service/registerGeolocalization")
+url = URI("https://csb-proxy.masnominadigital.com/api/csb/qa/ebanking-utils-service/registerGeolocalization")
 
 https = Net::HTTP.new(url.host, url.port)
 https.use_ssl = true
 
 request = Net::HTTP::Post.new(url)
-request["X-IBM-Client-Id"] = "4efd3dab2430c1918b6e0e4f9409bafd"
+request["X-IBM-Client-Id"] = "1b6637cb0917fb62b4c2ca5afa973157"
 request["Content-Type"] = "application/json"
 listElments.each do |element|
+  p element
   request.body = JSON.dump({
     "geolocalizationRequestBO": {
       "applicationId": "ECSB",
       "bpId": element[:bpId],
       "operationType": "1010",
-      "channel": "VDC",
+      "channel": element[:canal],
       "date": element[:date],
       "hour": element[:hour],
       "latitud": element[:latitud],
@@ -44,14 +48,16 @@ listElments.each do |element|
       "deviceInfo": element[:deviceinfo],
       "customFields": [
         {
-          "fieldName": "Campo",
-          "fieldValue": "Valor"
+          "fieldName": "folio-solicitud",
+          "fieldValue": element[:solicitud]
         }
       ]
     }
   })
   response = https.request(request)
+  p response
   element[:geolocalizationId] = JSON.parse(response.read_body)["geolocalizationResponseBO"]["geolocalizationId"]
+  element[:response] = response
 end
 
 
