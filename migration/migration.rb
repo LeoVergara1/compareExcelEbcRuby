@@ -43,8 +43,8 @@ listElments.each do |element|
         "channel": element[:canal],
         "date": element[:date],
         "hour": element[:hour],
-        "latitud": element[:latitud],
-        "longitud": element[:longitud],
+        "latitud": element[:latitud].round(8),
+        "longitud": element[:longitud].round(8),
         "ipAddress": element[:ip],
         "deviceInfo": element[:deviceinfo],
         "customFields": [
