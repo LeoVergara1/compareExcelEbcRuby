@@ -2,7 +2,7 @@ require 'rubyXL'
 require 'uri'
 require 'json'
 require 'net/http'
-workbook = RubyXL::Parser.parse('Vacías.xlsx')
+workbook = RubyXL::Parser.parse('Reintentar.xlsx')
 worksheet = workbook[0]
 
 listElments = []
@@ -25,7 +25,7 @@ end
 listElments.delete_at(0)
 
 #url = URI('https://csb-proxy.masnominadigital.com/api/csb/qa/ebanking-utils-service/registerGeolocalization')
-url = URI('https://csb-proxy.masnominadigital.com/api/csb/prd/ebanking-utils-service/registerGeolocalization')
+url = URI('https://csb-bridge.masnominadigital.com/api/csb/prd/ebanking-utils-service/registerGeolocalization')
 
 https = Net::HTTP.new(url.host, url.port)
 https.use_ssl = true
